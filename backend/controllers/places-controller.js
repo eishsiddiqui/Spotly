@@ -1,4 +1,5 @@
 const HttpError = require("../models/http-error");
+const { v4: uuidv4 } = require("uuid");
 
 const DUMMY_PLACES = [
   {
@@ -108,18 +109,6 @@ const DUMMY_PLACES = [
     address: "Piazza del Colosseo, 1, Rome, Italy",
     creator: "u3",
   },
-  {
-    id: "p10",
-    title: "Mount Fuji",
-    description:
-      "Japan’s highest mountain and one of the country’s most recognizable natural landmarks.",
-    location: {
-      lat: 35.3606,
-      lng: 138.7274,
-    },
-    address: "Kitayama, Fujinomiya, Shizuoka, Japan",
-    creator: "u1",
-  },
 ];
 
 function getPlacesById(req, res, next) {
@@ -151,5 +140,23 @@ function getPlacesByUserId(req, res, next) {
   });
 }
 
+function createPlace(req, res, next) {
+  const { title, description, location, address, creator } = req.body;
+
+  const createdPlace = {
+    id: uuidv4(),
+    title,
+    description,
+    location,
+    address,
+    creator,
+  };
+
+  DUMMY_PLACES.push(createdPlace);
+
+  res.status(201).json({ place: createdPlace });
+}
+
 exports.getPlacesById = getPlacesById;
 exports.getPlacesByUserId = getPlacesByUserId;
+exports.createPlace = createPlace;
