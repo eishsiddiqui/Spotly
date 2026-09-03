@@ -157,6 +157,45 @@ function createPlace(req, res, next) {
   res.status(201).json({ place: createdPlace });
 }
 
+function deletePlaceById(req, res, next) {
+  const placeId = req.params.pid;
+
+  //can use filter function as well
+  const index = DUMMY_PLACES.findIndex((p) => placeId === p.id);
+
+  if (index === -1) {
+    throw new HttpError("No Place found with this Id!", 404);
+  }
+
+  DUMMY_PLACES.splice(index, 1);
+  res.status(200).json({
+    message: "Place deleted successfully!",
+  });
+}
+
+function updatePlaceById(req, res, next) {
+  const { title, description } = req.body;
+  const placeId = req.params.pid;
+
+  const index = DUMMY_PLACES.findIndex((p) => placeId === p.id);
+  if (index === -1) {
+    throw new HttpError("No Place found with this Id!", 404);
+  }
+
+  const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
+  updatedPlace.title = title;
+  updatedPlace.description = description;
+
+  DUMMY_PLACES[index] = updatedPlace;
+
+  res.status(200).json({
+    message: "Place updated successfully!",
+    place: updatedPlace,
+  });
+}
+
 exports.getPlacesById = getPlacesById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
+exports.deletePlaceById = deletePlaceById;
+exports.updatePlaceById = updatePlaceById;
