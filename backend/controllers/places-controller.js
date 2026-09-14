@@ -1,5 +1,7 @@
 const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
+const getCoordinatesFromAddress = require("../utils/geocode");
+
 const { v4: uuidv4 } = require("uuid");
 
 const DUMMY_PLACES = [
@@ -98,18 +100,6 @@ const DUMMY_PLACES = [
     address: "Greater Iqbal Park, Lahore, Pakistan",
     creator: "u2",
   },
-  {
-    id: "p9",
-    title: "Colosseum",
-    description:
-      "An ancient Roman amphitheater and one of Rome’s most famous landmarks.",
-    location: {
-      lat: 41.8902,
-      lng: 12.4922,
-    },
-    address: "Piazza del Colosseo, 1, Rome, Italy",
-    creator: "u3",
-  },
 ];
 
 function getPlacesById(req, res, next) {
@@ -141,26 +131,35 @@ function getPlacesByUserId(req, res, next) {
   });
 }
 
-function createPlace(req, res, next) {
+async function createPlace(req, res, next) {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     throw new HttpError("Invalid inputs passed, please check your data.", 422);
   }
 
-  const { title, description, location, address, creator } = req.body;
+  const { title, description, address, creator } = req.body;
 
-  const createdPlace = {
-    id: uuidv4(),
-    title,
-    description,
-    location,
-    address,
-    creator,
-  };
+  try {
+    const location = await getCoordinatesFromAddress(address);
 
-  DUMMY_PLACES.push(createdPlace);
+    const createdPlace = {
+      id: uuidv4(),
+      title,
+      description,
+      location,
+      address,
+      creator,
+    };
 
-  res.status(201).json({ place: createdPlace });
+    DUMMY_PLACES.push(createdPlace);
+
+    res.status(201).json({
+      place: createdPlace,
+    });
+  } catch (error) {
+    next(new HttpError(error.message, 400));
+  }
 }
 
 function deletePlaceById(req, res, next) {
