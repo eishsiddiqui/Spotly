@@ -1,4 +1,5 @@
 import UserItem from "./UserItem";
+import "./UsersList.css";
 
 const UsersList = ({ items }) => {
   if (items.length === 0)
@@ -9,9 +10,15 @@ const UsersList = ({ items }) => {
     );
 
   return (
-    <ul>
+    <ul className="users-list">
       {items.map((user) => (
-        <UserItem key={user.id} user={user} />
+        <UserItem
+          key={user.id}
+          id={user.id}
+          image={user.image}
+          name={user.name}
+          placeCount={user.places}
+        />
       ))}
     </ul>
   );
