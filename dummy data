@@ -1,0 +1,142 @@
+const DUMMY_USERS = [
+  {
+    id: "u1",
+    name: "Max Schwarz",
+    email: "test@test.com",
+    password: "password123",
+  },
+  {
+    id: "u2",
+    name: "Sarah Connor",
+    email: "sarah@example.com",
+    password: "sarah123",
+  },
+  {
+    id: "u3",
+    name: "John Smith",
+    email: "john@example.com",
+    password: "john123",
+  },
+  {
+    id: "u4",
+    name: "Emily Johnson",
+    email: "emily@example.com",
+    password: "emily123",
+  },
+  {
+    id: "u5",
+    name: "Ali Hassan",
+    email: "ali@example.com",
+    password: "ali123",
+  },
+  {
+    id: "u6",
+    name: "Sophia Williams",
+    email: "sophia@example.com",
+    password: "sophia123",
+  },
+  {
+    id: "u7",
+    name: "David Brown",
+    email: "david@example.com",
+    password: "david123",
+  },
+];
+
+const DUMMY_PLACES = [
+  {
+    id: "p1",
+    title: "Eiffel Tower",
+    description: "One of the most iconic landmarks in the world.",
+    location: {
+      lat: 48.8584,
+      lng: 2.2945,
+    },
+    address: "Champ de Mars, 5 Av. Anatole France, Paris, France",
+    creator: "u1",
+  },
+  {
+    id: "p2",
+    title: "Statue of Liberty",
+    description:
+      "A famous symbol of freedom and one of New York’s most recognizable landmarks.",
+    location: {
+      lat: 40.6892,
+      lng: -74.0445,
+    },
+    address: "Liberty Island, New York, NY 10004, USA",
+    creator: "u2",
+  },
+  {
+    id: "p3",
+    title: "Taj Mahal",
+    description:
+      "A magnificent white marble monument and one of the Seven Wonders of the World.",
+    location: {
+      lat: 27.1751,
+      lng: 78.0421,
+    },
+    address: "Dharmapuri, Forest Colony, Agra, Uttar Pradesh, India",
+    creator: "u1",
+  },
+  {
+    id: "p4",
+    title: "Burj Khalifa",
+    description:
+      "The tallest building in the world, located in the heart of Dubai.",
+    location: {
+      lat: 25.1972,
+      lng: 55.2744,
+    },
+    address: "1 Sheikh Mohammed bin Rashid Blvd, Dubai, UAE",
+    creator: "u3",
+  },
+  {
+    id: "p5",
+    title: "Big Ben",
+    description:
+      "The iconic clock tower located beside the Palace of Westminster.",
+    location: {
+      lat: 51.5007,
+      lng: -0.1246,
+    },
+    address: "London SW1A 0AA, United Kingdom",
+    creator: "u2",
+  },
+  {
+    id: "p6",
+    title: "Sydney Opera House",
+    description:
+      "A world-famous performing arts center known for its distinctive architecture.",
+    location: {
+      lat: -33.8568,
+      lng: 151.2153,
+    },
+    address: "Bennelong Point, Sydney NSW 2000, Australia",
+    creator: "u3",
+  },
+  {
+    id: "p7",
+    title: "Lahore Fort",
+    description:
+      "A historic Mughal-era fort and one of Lahore’s most important landmarks.",
+    location: {
+      lat: 31.588,
+      lng: 74.3151,
+    },
+    address: "Fort Rd, Shahi Mohallah, Lahore, Pakistan",
+    creator: "u1",
+  },
+  {
+    id: "p8",
+    title: "Minar-e-Pakistan",
+    description:
+      "A national monument commemorating the Lahore Resolution of 1940.",
+    location: {
+      lat: 31.5925,
+      lng: 74.3095,
+    },
+    address: "Greater Iqbal Park, Lahore, Pakistan",
+    creator: "u2",
+  },
+];

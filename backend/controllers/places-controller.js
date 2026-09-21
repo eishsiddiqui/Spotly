@@ -1,108 +1,12 @@
 const HttpError = require("../models/http-error");
 const mongoose = require("mongoose");
 const Place = require("../models/place");
+const User = require("../models/user");
+
 const { validationResult } = require("express-validator");
 const getCoordinatesFromAddress = require("../utils/geocode");
 
 const { v4: uuidv4 } = require("uuid");
-
-const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Eiffel Tower",
-    description: "One of the most iconic landmarks in the world.",
-    location: {
-      lat: 48.8584,
-      lng: 2.2945,
-    },
-    address: "Champ de Mars, 5 Av. Anatole France, Paris, France",
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Statue of Liberty",
-    description:
-      "A famous symbol of freedom and one of New York’s most recognizable landmarks.",
-    location: {
-      lat: 40.6892,
-      lng: -74.0445,
-    },
-    address: "Liberty Island, New York, NY 10004, USA",
-    creator: "u2",
-  },
-  {
-    id: "p3",
-    title: "Taj Mahal",
-    description:
-      "A magnificent white marble monument and one of the Seven Wonders of the World.",
-    location: {
-      lat: 27.1751,
-      lng: 78.0421,
-    },
-    address: "Dharmapuri, Forest Colony, Agra, Uttar Pradesh, India",
-    creator: "u1",
-  },
-  {
-    id: "p4",
-    title: "Burj Khalifa",
-    description:
-      "The tallest building in the world, located in the heart of Dubai.",
-    location: {
-      lat: 25.1972,
-      lng: 55.2744,
-    },
-    address: "1 Sheikh Mohammed bin Rashid Blvd, Dubai, UAE",
-    creator: "u3",
-  },
-  {
-    id: "p5",
-    title: "Big Ben",
-    description:
-      "The iconic clock tower located beside the Palace of Westminster.",
-    location: {
-      lat: 51.5007,
-      lng: -0.1246,
-    },
-    address: "London SW1A 0AA, United Kingdom",
-    creator: "u2",
-  },
-  {
-    id: "p6",
-    title: "Sydney Opera House",
-    description:
-      "A world-famous performing arts center known for its distinctive architecture.",
-    location: {
-      lat: -33.8568,
-      lng: 151.2153,
-    },
-    address: "Bennelong Point, Sydney NSW 2000, Australia",
-    creator: "u3",
-  },
-  {
-    id: "p7",
-    title: "Lahore Fort",
-    description:
-      "A historic Mughal-era fort and one of Lahore’s most important landmarks.",
-    location: {
-      lat: 31.588,
-      lng: 74.3151,
-    },
-    address: "Fort Rd, Shahi Mohallah, Lahore, Pakistan",
-    creator: "u1",
-  },
-  {
-    id: "p8",
-    title: "Minar-e-Pakistan",
-    description:
-      "A national monument commemorating the Lahore Resolution of 1940.",
-    location: {
-      lat: 31.5925,
-      lng: 74.3095,
-    },
-    address: "Greater Iqbal Park, Lahore, Pakistan",
-    creator: "u2",
-  },
-];
 
 async function getPlacesById(req, res, next) {
   const placesId = req.params.pid;
@@ -168,6 +72,10 @@ async function createPlace(req, res, next) {
 
   const location = await getCoordinatesFromAddress(address);
 
+  if (!mongoose.Types.ObjectId.isValid(creator)) {
+    return next(new HttpError("Invalid Creator Id, Enter Again!", 422));
+  }
+
   const createdPlace = new Place({
     title,
     description,
@@ -179,7 +87,16 @@ async function createPlace(req, res, next) {
   });
 
   try {
-    await createdPlace.save();
+    const user = await User.findById(creator);
+    if (!user)
+      return next(new HttpError("Invalid Creator Id, Enter Again!.", 422));
+
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await createdPlace.save({ session: sess });
+    user.places.push(createdPlace);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
       "Creating place failed. Please try again!",
@@ -193,23 +110,42 @@ async function createPlace(req, res, next) {
   });
 }
 
-async function deletePlaceById(req, res, next) {
+const deletePlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
 
+  let place;
   try {
-    const place = await Place.findByIdAndDelete(placeId);
+    place = await Place.findById(placeId).populate("creator");
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not delete the place!",
+      "Something went wrong, could not delete place.",
       500,
     );
     return next(error);
   }
 
-  res.status(200).json({
-    message: "Place deleted successfully!",
-  });
-}
+  if (!place) {
+    const error = new HttpError("Could not find place for this id.", 404);
+    return next(error);
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await place.remove({ session: sess });
+    place.creator.places.pull(place);
+    await place.creator.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete place.",
+      500,
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Deleted place." });
+};
 
 async function updatePlaceById(req, res, next) {
   const errors = validationResult(req);
