@@ -1,7 +1,9 @@
 import "./App.css";
 import Users from "./user/pages/Users";
+import Auth from "./user/pages/Auth";
 import NewPlaces from "./places/pages/NewPlaces";
 import UserPlaces from "./places/pages/UserPlaces";
+import UpdatePlace from "./places/pages/UpdatePlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 import {
@@ -20,10 +22,8 @@ const App = () => {
           <Route path="/" element={<Users />} />
           <Route path="/places/new" element={<NewPlaces />} />
           <Route path="/:userId/places" element={<UserPlaces />} />
-          <Route
-            path="/auth"
-            element={<h2 className="center">Authenticate Page</h2>}
-          />
+          <Route path="/places/:placeId" element={<UpdatePlace />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </main>
