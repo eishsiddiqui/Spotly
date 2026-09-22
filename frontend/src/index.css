@@ -1,18 +1,115 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --font-family:
+    "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+
+  /* Palette: Navy, Purple, Lilac & Off-White */
+  --bg-main: #070c1e;
+  --surface-card: #0f1a3a;
+  --surface-card-hover: #14224c;
+  --surface-elevated: #172654;
+  --surface-border: rgba(200, 182, 255, 0.14);
+  --surface-border-hover: rgba(200, 182, 255, 0.45);
+
+  /* Primary & Accents: Royal Purple & Radiant Lilac */
+  --color-primary: #7c3aed;
+  --color-primary-hover: #6d28d9;
+  --color-primary-gradient: linear-gradient(
+    135deg,
+    #6d28d9 0%,
+    #7c3aed 50%,
+    #8b5cf6 100%
+  );
+  --color-primary-glow: rgba(124, 58, 237, 0.45);
+
+  --color-lilac: #c8b6ff;
+  --color-lilac-soft: rgba(200, 182, 255, 0.15);
+  --color-purple: #7c3aed;
+  --color-navy: #0a122c;
+
+  --color-danger: #f43f5e;
+  --color-danger-hover: #e11d48;
+  --color-danger-gradient: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  --color-danger-glow: rgba(225, 29, 72, 0.35);
+
+  /* Off-White Text Hierarchy */
+  --text-primary: #f8f9fa;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8e9aaf;
+
+  /* Shadows & Radius */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 20px 35px -10px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 25px rgba(200, 182, 255, 0.22);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--font-family);
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
-  background: #4d4d4d;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  background-image:
+    radial-gradient(
+      ellipse at 15% 0%,
+      rgba(124, 58, 237, 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 85% 100%,
+      rgba(200, 182, 255, 0.14) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(10, 25, 70, 0.5) 0%,
+      transparent 70%
+    );
+  background-attachment: fixed;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070c1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #172654;
+  border-radius: var(--radius-full);
+  border: 2px solid #070c1e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #23356e;
+}
+
+/* Transitions */
 .slide-in-left-enter {
   transform: translateX(-100%);
 }
@@ -20,7 +117,7 @@ body {
 .slide-in-left-enter-active {
   transform: translateX(0);
   opacity: 1;
-  transition: all 200ms;
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .slide-in-left-exit {
@@ -31,7 +128,7 @@ body {
 .slide-in-left-exit-active {
   transform: translateX(-100%);
   opacity: 0;
-  transition: all 200ms;
+  transition: all 200ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .center {

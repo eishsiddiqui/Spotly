@@ -1,5 +1,6 @@
 .form-control {
-  margin: 1rem 0;
+  margin: 1.25rem 0;
+  text-align: left;
 }
 
 .form-control label,
@@ -9,33 +10,55 @@
 }
 
 .form-control label {
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
   margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+  transition: color var(--transition-fast);
 }
 
 .form-control input,
 .form-control textarea {
   width: 100%;
   font: inherit;
-  border: 1px solid #ccc;
-  background: #f8f8f8;
-  padding: 0.15rem 0.25rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: rgba(10, 18, 44, 0.7);
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  transition: all var(--transition-fast);
+}
+
+.form-control input::placeholder,
+.form-control textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .form-control input:focus,
 .form-control textarea:focus {
   outline: none;
-  background: #ebebeb;
-  border-color: #510077;
+  background: rgba(10, 18, 44, 0.95);
+  border-color: var(--color-lilac);
+  box-shadow: 0 0 0 3px rgba(200, 182, 255, 0.3);
 }
 
-.form-control--invalid label,
+.form-control--invalid label {
+  color: #fda4af;
+}
+
 .form-control--invalid p {
-  color: red;
+  color: #fb7185;
+  font-size: 0.825rem;
+  font-weight: 500;
+  margin: 0.4rem 0 0 0;
 }
 
 .form-control--invalid input,
 .form-control--invalid textarea {
-  border-color: red;
-  background: #ffd1d1;
+  border-color: var(--color-danger);
+  background: rgba(244, 63, 94, 0.06);
+  box-shadow: 0 0 0 3px var(--color-danger-glow);
 }

@@ -1,15 +1,56 @@
-.authentication__header {
-  color: white;
+.authentication {
+  width: 92%;
+  max-width: 28rem;
+  margin: 3rem auto;
   text-align: center;
+  padding: 2.5rem 2.25rem;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-normal);
 }
 
-.authentication {
-  width: 90%;
-  max-width: 25rem;
-  margin: 7rem auto;
-  text-align: center;
+.authentication h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+}
+
+.authentication hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(200, 182, 255, 0.22),
+    transparent
+  );
+  margin: 1.25rem 0 1.75rem;
 }
 
 .authentication form {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.authentication form button[type="submit"] {
+  width: 100%;
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+}
+
+.authentication > button {
+  width: 100%;
+  margin: 0.5rem 0 0;
+  padding: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .authentication {
+    padding: 1.75rem 1.25rem;
+    margin: 2rem auto;
+  }
 }

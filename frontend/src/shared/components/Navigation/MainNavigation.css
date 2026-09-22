@@ -1,29 +1,51 @@
 .main-navigation__menu-btn {
-  width: 3rem;
-  height: 3rem;
-  background: transparent;
-  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-right: 2rem;
+  align-items: center;
+  padding: 0.5rem;
+  margin-right: 1.25rem;
   cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.main-navigation__menu-btn:hover {
+  background: rgba(200, 182, 255, 0.12);
+  border-color: rgba(200, 182, 255, 0.45);
 }
 
 .main-navigation__menu-btn span {
   display: block;
-  width: 3rem;
-  height: 2.5px;
-  background: white;
+  width: 1.4rem;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
 }
 
 .main-navigation__title {
-  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .main-navigation__title a {
   text-decoration: none;
-  color: white;
+  background: linear-gradient(135deg, #f8f9fa 30%, #c8b6ff 70%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: opacity var(--transition-fast);
+  display: inline-block;
+}
+
+.main-navigation__title a:hover {
+  opacity: 0.9;
 }
 
 .main-navigation__header-nav {
