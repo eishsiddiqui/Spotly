@@ -13,7 +13,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, userId } = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { sendRequest, isLoading, error, clearError } = useHttpClient();
@@ -88,7 +88,7 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
 
-            {isLoggedIn && (
+            {isLoggedIn && props.creatorId === userId && (
               <>
                 <Button to={`/places/${props.id}`}>EDIT</Button>
                 <Button danger onClick={showDeleteWarningHandler}>
