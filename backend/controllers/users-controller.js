@@ -50,7 +50,7 @@ async function signup(req, res, next) {
     return next(error);
   }
 
-  res.status(201).json({ user: newUser });
+  res.status(201).json({ user: newUser.toObject({ getters: true }) });
 }
 
 async function login(req, res, next) {
@@ -71,7 +71,10 @@ async function login(req, res, next) {
     );
   }
 
-  res.json({ message: "Successfully Logged In!" });
+  res.json({
+    message: "Successfully Logged In!",
+    user: registeredUser.toObject({ getters: true }),
+  });
 }
 
 exports.getUsers = getUsers;

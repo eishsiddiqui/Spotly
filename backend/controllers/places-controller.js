@@ -52,12 +52,8 @@ async function getPlacesByUserId(req, res, next) {
     );
   }
 
-  // res.json({
-  //   places: places.map((place) => place.toObject()),
-  // });
-
   res.json({
-    places,
+    places: places.map((place) => place.toObject({ getters: true })),
   });
 }
 
@@ -81,7 +77,7 @@ async function createPlace(req, res, next) {
     description,
     location,
     image:
-      "https://en.wikipedia.org/wiki/Great_Wall_of_China#/media/File:The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+      "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1000&q=80",
     address,
     creator,
   });
