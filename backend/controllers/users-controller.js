@@ -37,8 +37,7 @@ async function signup(req, res, next) {
   const newUser = new User({
     name,
     email,
-    image:
-      "https://en.wikipedia.org/wiki/Great_Wall_of_China#/media/File:The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+    image: req.file.path,
     password,
     places: [],
   });
