@@ -11,7 +11,7 @@ async function getUsers(req, res, next) {
     return next(new HttpError("Error fetching Users!", 500));
   }
 
-  res.json({ users });
+  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 }
 
 async function signup(req, res, next) {
