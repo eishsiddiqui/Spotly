@@ -95,7 +95,7 @@ async function login(req, res, next) {
   if (!registeredUser) {
     throw new HttpError(
       "Could not identify user, credentials seem to be wrong",
-      401,
+      403,
     );
   }
   let isValidPassword = false;
@@ -110,7 +110,7 @@ async function login(req, res, next) {
     next(
       new HttpError(
         "Could not identify user, credentials seem to be wrong",
-        401,
+        403,
       ),
     );
   }

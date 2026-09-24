@@ -121,6 +121,13 @@ const deletePlaceById = async (req, res, next) => {
     return next(error);
   }
 
+  if (place.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      "You are not authorized to delete this place!",
+      401,
+    );
+    return next(error);
+  }
   const imagePath = place.image;
 
   try {
@@ -161,6 +168,14 @@ async function updatePlaceById(req, res, next) {
     const error = new HttpError(
       "Something went wrong, could not find a place to update!",
       500,
+    );
+    return next(error);
+  }
+
+  if (place.creator.toString() !== req.userData.userId) {
+    const error = new HttpError(
+      "You are not authorized to update this place!",
+      401,
     );
     return next(error);
   }
