@@ -13,7 +13,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
-  const { isLoggedIn, userId } = useContext(AuthContext);
+  const { isLoggedIn, userId, token } = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { sendRequest, isLoading, error, clearError } = useHttpClient();
@@ -26,6 +26,10 @@ const PlaceItem = (props) => {
       await sendRequest(
         `http://localhost:5000/api/places/${props.id}`,
         "DELETE",
+        null,
+        {
+          Authorization: "Bearer " + token,
+        },
       );
       props.onDelete(props.id);
     } catch (err) {}

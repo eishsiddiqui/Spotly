@@ -18,21 +18,21 @@ import {
 } from "react-router-dom";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setToken(token);
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
   }, []);
 
   const routes = useMemo(() => {
-    if (isLoggedIn) {
+    if (token) {
       return (
         <>
           <Route path="/" element={<Users />} />
@@ -52,12 +52,13 @@ const App = () => {
         </>
       );
     }
-  }, [isLoggedIn]);
+  }, [token]);
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        isLoggedIn: !!token,
+        token: token,
         userId: userId,
         login: login,
         logout: logout,
