@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 import "./App.css";
 import Users from "./user/pages/Users";
@@ -9,6 +9,7 @@ import UpdatePlace from "./places/pages/UpdatePlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 import { AuthContext } from "./shared/context/auth-context";
+import { useAuth } from "./shared/hooks/auth-hook";
 
 import {
   BrowserRouter as Router,
@@ -18,18 +19,7 @@ import {
 } from "react-router-dom";
 
 const App = () => {
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
-
-  const login = useCallback((uid, token) => {
-    setToken(token);
-    setUserId(uid);
-  }, []);
-
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-  }, []);
+  const { token, login, logout, userId } = useAuth();
 
   const routes = useMemo(() => {
     if (token) {

@@ -56,11 +56,11 @@ async function createPlace(req, res, next) {
     throw new HttpError("Invalid inputs passed, please check your data.", 422);
   }
 
-  const { title, description, address, creator } = req.body;
+  const { title, description, address } = req.body;
 
   const location = await getCoordinatesFromAddress(address);
 
-  if (!mongoose.Types.ObjectId.isValid(creator)) {
+  if (!mongoose.Types.ObjectId.isValid(req.userData.userId)) {
     return next(new HttpError("Invalid Creator Id, Enter Again!", 422));
   }
 
@@ -70,11 +70,11 @@ async function createPlace(req, res, next) {
     location,
     image: req.file.path,
     address,
-    creator,
+    creator: req.userData.userId,
   });
 
   try {
-    const user = await User.findById(creator);
+    const user = await User.findById(req.userData.userId);
     if (!user)
       return next(new HttpError("Invalid Creator Id, Enter Again!.", 422));
 
