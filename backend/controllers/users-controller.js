@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const HttpError = require("../models/http-error");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const { validationResult } = require("express-validator");
 
@@ -58,7 +59,26 @@ async function signup(req, res, next) {
     return next(error);
   }
 
-  res.status(201).json({ user: newUser.toObject({ getters: true }) });
+  let token;
+  try {
+    token = jwt.sign(
+      {
+        userId: newUser.id,
+        email: newUser.email,
+      },
+      process.env.JWT_KEY,
+      { expiresIn: "10hr" },
+    );
+  } catch (err) {
+    const error = new HttpError("Signing Up failed. Please try again!", 500);
+    return next(error);
+  }
+
+  res.status(201).json({
+    userId: newUser.id,
+    email: newUser.email,
+    token: token,
+  });
 }
 
 async function login(req, res, next) {
@@ -95,9 +115,25 @@ async function login(req, res, next) {
     );
   }
 
+  let token;
+  try {
+    token = jwt.sign(
+      {
+        userId: registeredUser.id,
+        email: registeredUser.email,
+      },
+      process.env.JWT_KEY,
+      { expiresIn: "10hr" },
+    );
+  } catch (err) {
+    const error = new HttpError("Logging In failed.Please try again!", 500);
+    return next(error);
+  }
+
   res.json({
-    message: "Successfully Logged In!",
-    user: registeredUser.toObject({ getters: true }),
+    userId: registeredUser.id,
+    email: registeredUser.email,
+    token: token,
   });
 }
 
