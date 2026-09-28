@@ -1,4 +1,4 @@
-# Spotly (YourPlaces)
+# Spotly 
 
 Spotly is a full-stack MERN (MongoDB, Express, React, Node.js) web application where users can share and discover favorite places around the world. Users can create an account, upload photos, add places with addresses that are automatically converted to geographic coordinates, and view them on an interactive map.
 
